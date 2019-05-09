@@ -32,13 +32,47 @@ class NotAnArray {
     this.storage = {};
   }
 
-  push() {}
+  push(value) {
+    let index = Object.keys(this.storage).length ? Object.keys(this.storage).length : 0;
+    this.storage[index] = value;
+  }
 
-  pop() {}
+  pop() {
+    let index = Object.keys(this.storage).length ? Object.keys(this.storage).length - 1 : 0;
+    if (index) {
+      let returnValue = this.storage[index];
+      delete this.storage[index];
+      return returnValue;
+    } else {
+      return undefined;
+    }
+  }
 
-  unshift() {}
+  unshift(value) {
+    let unshiftedStorage = {};
+    let index = Object.keys(this.storage).length ? Object.keys(this.storage).length : 0;
+    unshiftedStorage[0] = value;
+    if (index) {
+      Object.keys(this.storage).forEach((key) => {
+        unshiftedStorage[parseInt(key) + 1] = this.storage[key];
+      });
+    }
+    this.storage = unshiftedStorage;
+    return this.storage;
+  }
 
-  shift() {}
+  shift() {
+    let firstValue = this.storage[0];
+    delete this.storage[0];
+    let shiftedStorage = {};
+    if (Object.keys(this.storage).length) {
+      Object.keys(this.storage).forEach((key) => {
+        shiftedStorage[parseInt(key) - 1] = this.storage[key];
+      });
+      this.storage = shiftedStorage;
+    }
+    return Object.keys(this.storage).length ? firstValue : undefined;
+  }
 }
 
 module.exports = NotAnArray;
