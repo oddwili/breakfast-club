@@ -28,17 +28,59 @@
 //
 
 class NotAnArray {
-  constructor() {
-    this.storage = {};
-  }
+	constructor() {
+		this.storage = {};
+	}
 
-  push() {}
+	length() {
+		return Object.keys(this.storage).length;
+	}
 
-  pop() {}
+	push(data) {
+		if (data === undefined) return this.length(); // if no parameter is passed in, return current object length with no operations.
+		const i = this.length();
+		this.storage[i] = data;
+		return this.length();
+	}
 
-  unshift() {}
+	pop() {
+		if (this.length() === 0) return undefined; // return undefined as there's no key to pop
+		const i = this.length() - 1; // accounting for 0 based index to grab last key in object
+		let deleted = this.storage[i];
+		delete this.storage[i];
+		return deleted;
+	}
 
-  shift() {}
+	unshift(data) {
+		// if (this.length() === 0) return undefined;
+		let replacer;
+		let temp;
+		let length = this.length();
+		Object.keys(this.storage).map((key, i) => {
+			// console.log(key);
+			if (i === 0) {
+				replacer = this.storage[i];
+				this.storage[i] = data;
+			} else {
+				temp = replacer;
+				replacer = this.storage[i];
+				this.storage[i] = temp;
+			}
+		});
+		this.storage[length + 1] = replacer;
+	}
+
+	shift() {
+		if (this.length() === 0) return undefined;
+		let deleted = this.storage[0];
+		let length = this.length();
+		Object.keys(this.storage).map((key, i) => {
+			this.storage[i] = this.storage[i + 1];
+		});
+		delete this.storage[length];
+
+		return deleted;
+	}
 }
 
 module.exports = NotAnArray;
