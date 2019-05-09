@@ -52,28 +52,19 @@ class NotAnArray {
 	}
 
 	unshift(data) {
-		// if (this.length() === 0) return undefined;
-		let replacer;
-		let temp;
-		let length = this.length();
+		let duplicate = {};
+		duplicate[0] = data;
+		// let length = this.length();
 		Object.keys(this.storage).map((key, i) => {
-			// console.log(key);
-			if (i === 0) {
-				replacer = this.storage[i];
-				this.storage[i] = data;
-			} else {
-				temp = replacer;
-				replacer = this.storage[i];
-				this.storage[i] = temp;
-			}
+			duplicate[i+1] = this.storage[i]
 		});
-		this.storage[length + 1] = replacer;
+		this.storage = {...duplicate}
 	}
 
-	shift() {
+	shift() { // delete first index of object, then shift values
 		if (this.length() === 0) return undefined;
 		let deleted = this.storage[0];
-		let length = this.length();
+		let length = this.length() - 1;
 		Object.keys(this.storage).map((key, i) => {
 			this.storage[i] = this.storage[i + 1];
 		});
