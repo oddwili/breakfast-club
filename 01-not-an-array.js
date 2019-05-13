@@ -54,7 +54,6 @@ class NotAnArray {
 	unshift(data) {
 		let duplicate = {};
 		duplicate[0] = data;
-		// let length = this.length();
 		Object.keys(this.storage).map((key, i) => {
 			duplicate[i+1] = this.storage[i]
 		});
